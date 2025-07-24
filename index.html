@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Microfinance Manager</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 p-6">
+  <h1 class="text-3xl font-bold mb-4">Microfinance Manager</h1>
+
+<div class="flex w-full md:w-1/3 mb-4 space-x-4">
+  <div class="relative flex-1">
+    <select id="member"
+            required
+            class="peer h-12 w-full border rounded px-2 pt-4 pr-10 bg-white placeholder-transparent appearance-none focus:outline-none focus:border-blue-600">
+      <option value="" disabled selected hidden></option>
+      <!-- JS will populate -->
+    </select>
+
+    <label for="member"
+           class="absolute left-2 top-2 text-gray-500 text-sm transition-all
+                  peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400
+                  peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-500">
+      Select Member
+    </label>
+
+    <!-- Dropdown arrow icon -->
+    <svg class="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none w-5 h-5 text-gray-500"
+         fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+    </svg>
+  </div>
+
+  <div class="relative flex-1">
+    <input type="text" id="sum-total" readonly
+           class="peer h-12 w-full border rounded px-2 pt-4 bg-gray-100 placeholder-transparent focus:outline-none"
+           placeholder="Total of All Members" />
+    <label for="sum-total"
+           class="absolute left-2 top-2 text-gray-500 text-sm transition-all
+                  peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400
+                  peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-500">
+      Total of All Members
+    </label>
+  </div>
+</div>
+
+
+
+  <form id="tx-form" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+  <!-- Floating input fields -->
+  <div class="relative">
+    <input type="text" name="month" required pattern="^[A-Za-z]+\s+\d{4}$"
+           class="peer h-12 w-full border rounded px-2 pt-4 bg-white placeholder-transparent focus:outline-none focus:border-blue-600"
+           placeholder="Month (e.g. June 2025)" />
+    <label class="absolute left-2 top-2 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-500">Month (e.g. June 2025)</label>
+  </div>
+
+  <div class="relative">
+    <input type="number" name="savings" required
+           class="peer h-12 w-full border rounded px-2 pt-4 bg-white placeholder-transparent focus:outline-none focus:border-blue-600"
+           placeholder="Savings" />
+    <label class="absolute left-2 top-2 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-500">Savings</label>
+  </div>
+
+  <div class="relative">
+    <input type="number" name="profit" step="0.01" readonly
+           class="peer h-12 w-full border rounded px-2 pt-4 bg-gray-100 placeholder-transparent focus:outline-none"
+           placeholder="Profit" />
+    <label class="absolute left-2 top-2 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-500">Profit</label>
+  </div>
+
+  <div class="relative">
+    <input type="number" name="withdraw"
+           class="peer h-12 w-full border rounded px-2 pt-4 bg-white placeholder-transparent focus:outline-none focus:border-blue-600"
+           placeholder="Withdraw" />
+    <label class="absolute left-2 top-2 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-500">Withdraw</label>
+  </div>
+
+  <div class="relative">
+    <input type="number" name="total" readonly
+           class="peer h-12 w-full border rounded px-2 pt-4 bg-gray-100 placeholder-transparent focus:outline-none"
+           placeholder="Total" />
+    <label class="absolute left-2 top-2 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-500">Total</label>
+  </div>
+
+  <div class="relative">
+    <input type="number" name="loan"
+           class="peer h-12 w-full border rounded px-2 pt-4 bg-white placeholder-transparent focus:outline-none focus:border-blue-600"
+           placeholder="Loan" />
+    <label class="absolute left-2 top-2 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-500">Loan</label>
+  </div>
+
+  <div class="relative">
+    <input type="number" name="instalment"
+           class="peer h-12 w-full border rounded px-2 pt-4 bg-white placeholder-transparent focus:outline-none focus:border-blue-600"
+           placeholder="Instalment" />
+    <label class="absolute left-2 top-2 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-500">Instalment</label>
+  </div>
+
+  <div class="relative">
+    <input type="number" name="instalment_no" readonly
+           class="peer h-12 w-full border rounded px-2 pt-4 bg-gray-100 placeholder-transparent focus:outline-none"
+           placeholder="Instalment No" />
+    <label class="absolute left-2 top-2 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-500">Instalment No</label>
+  </div>
+
+  <div class="relative">
+    <input type="number" name="instalment_due" readonly
+           class="peer h-12 w-full border rounded px-2 pt-4 bg-gray-100 placeholder-transparent focus:outline-none"
+           placeholder="Instalment Due" />
+    <label class="absolute left-2 top-2 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-500">Instalment Due</label>
+  </div>
+
+  <div class="relative">
+    <input type="date" name="receive_date" required
+           class="peer h-12 w-full border rounded px-2 pt-4 bg-white placeholder-transparent focus:outline-none focus:border-blue-600"
+           placeholder="Receive Date" />
+    <label class="absolute left-2 top-2 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-500">Receive Date</label>
+  </div>
+
+  <div class="relative">
+    <input type="text" name="receiver"
+           class="peer h-12 w-full border rounded px-2 pt-4 bg-white placeholder-transparent focus:outline-none focus:border-blue-600"
+           placeholder="Receiver" />
+    <label class="absolute left-2 top-2 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-500">Receiver</label>
+  </div>
+
+  <div class="relative">
+    <input type="text" name="message"
+           class="peer h-12 w-full border rounded px-2 pt-4 bg-white placeholder-transparent focus:outline-none focus:border-blue-600"
+           placeholder="Message" />
+    <label class="absolute left-2 top-2 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-500">Message</label>
+  </div>
+
+  <input type="hidden" name="id" />
+  <input type="hidden" name="action" value="create" />
+  <button type="submit" class="col-span-full bg-blue-600 text-white p-2 rounded">Submit</button>
+</form>
+
+
+  <div class="relative mb-4 w-full">
+  <input type="text" id="search" placeholder="Search..."
+         class="peer h-12 w-full border rounded px-2 pt-4 bg-white placeholder-transparent focus:outline-none focus:border-blue-600" />
+  <label for="search"
+         class="absolute left-2 top-2 text-gray-500 text-sm transition-all 
+                peer-placeholder-shown:top-3 peer-placeholder-shown:text-base 
+                peer-placeholder-shown:text-gray-400 peer-focus:top-2 
+                peer-focus:text-sm peer-focus:text-gray-500">
+    Search...
+  </label>
+</div>
+
+
+  <div class="overflow-auto">
+    <table class="table-auto w-full bg-white shadow">
+      <thead class="bg-gray-200">
+        <tr class="text-left">
+          <th class="p-2">Month</th><th>Savings</th><th>Profit</th><th>Withdraw</th>
+          <th>Total</th><th>Loan</th><th>Instalment</th><th>Inst No.</th><th>Due</th>
+          <th>Date</th><th>Receiver</th><th>Msg</th><th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="tx-table"></tbody>
+    </table>
+  </div>
+
+
+  <script>
+    const memberEl = document.getElementById('member');
+    const form = document.getElementById('tx-form');
+    const table = document.getElementById('tx-table');
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzAtDRtt6FBuMIzUuY3w7luFGbaxhg41l07aVuk9op-Rr0dUjaVdIXmRSikMjF9gdSD/exec';
+
+    const MEMBERS = [
+      'member1','member2','member3','member4','member5',
+      'member6','member7','member8','member9','member10'
+    ];
+    MEMBERS.forEach(m=>{
+      const o=new Option(m,m);
+      memberEl.append(o);
+    });
+
+    let currentMember='';
+    memberEl.addEventListener('change',()=>{
+      currentMember=memberEl.value;
+      load();
+    });
+
+    async function load(){
+      if(!currentMember) return;
+      const res = await fetch(`${scriptURL}?action=read&member=${currentMember}`);
+      const data = await res.json();
+      renderTable(data);
+    }
+
+    function renderTable(rows){
+      table.innerHTML='';
+      rows.sort((a,b)=>new Date(b.receive_date)-new Date(a.receive_date));
+      rows.forEach(r=>{
+        const tr=document.createElement('tr');
+        ['month','savings','profit','withdraw','total','loan','instalment','instalment_no','instalment_due','receive_date','receiver','message'].forEach(k=>{
+          const td=document.createElement('td');
+          if (k === 'receive_date') {
+            const utcDate = new Date(r[k]);
+            if (!isNaN(utcDate)) {
+              const bdTime = new Date(utcDate.getTime() + 6 * 60 * 60 * 1000); // Add 6 hours for GMT+6
+              td.textContent = bdTime.toISOString().split('T')[0];
+            } else {
+              td.textContent = r[k];
+            }
+          } else if (k === 'month') {
+            const d = new Date(r[k]);
+            td.textContent = isNaN(d) ? r[k] : d.toLocaleString('en-US', { month: 'long', year: 'numeric' });
+          } else if (['savings', 'profit', 'withdraw', 'total', 'loan', 'instalment', 'instalment_due'].includes(k)) {
+            const num = parseFloat(r[k]);
+            td.textContent = isNaN(num) ? '' : num.toFixed(2);
+          } else {
+            td.textContent = r[k];
+          }
+
+
+          td.className='p-2 border';
+          tr.append(td);
+        });
+        const ac=document.createElement('td');
+        ac.className='p-2 border';
+        const e = document.createElement('button');
+        e.textContent = 'Edit';
+        e.className = 'text-blue-600 mr-2';
+        e.onclick = () => {
+          populate(r);
+          form.scrollIntoView({ behavior: 'smooth' }); // Scrolls to form
+        };
+        const d=document.createElement('button');
+        d.textContent='Delete'; d.className='text-red-600';
+        d.onclick=()=>action('delete', {...r});
+        ac.append(e,d); tr.append(ac);
+        table.append(tr);
+      });
+    }
+
+    function populate(r) {
+  const fields = [
+    'month', 'savings', 'profit', 'withdraw', 'total', 'loan',
+    'instalment', 'instalment_no', 'instalment_due',
+    'receive_date', 'receiver', 'message', 'id'
+  ];
+
+  fields.forEach(k => {
+    let val = r[k] || '';
+    if (['savings', 'profit', 'withdraw', 'loan', 'instalment', 'instalment_no', 'instalment_due', 'total'].includes(k)) {
+      val = parseFloat(val).toFixed(2);
+    }
+    if (k === 'receive_date') {
+  const d = new Date(val);
+  if (!isNaN(d)) {
+    const offsetMs = 6 * 60 * 60 * 1000; // GMT+6
+    const localDate = new Date(d.getTime() + offsetMs);
+    val = localDate.toISOString().split('T')[0];
+  }
+} else if (k === 'month') {
+  const d = new Date(val);
+  if (!isNaN(d)) {
+    val = d.toLocaleString('en-US', { month: 'long', year: 'numeric' }); // e.g., June 2025
+  }
+}
+
+    form.elements[k].value = val;
+  });
+
+  form.elements['action'].value = 'update';
+}
+
+
+
+
+    ['savings', 'profit', 'withdraw'].forEach(name => {
+      form.elements[name].addEventListener('input', recalc);
+    });
+    function recalc(){
+      const s=+form.elements['savings'].value||0;
+      const p=+form.elements['profit'].value||0;
+      const w=+form.elements['withdraw'].value||0;
+      const l=+form.elements['loan'].value||0;
+      const inst=+form.elements['instalment'].value||0;
+      form.elements['total'].value = (s+p-w + getPrevTotal()).toFixed(2);
+      // instalment_no & due roughly same logic; can refine similarly
+    }
+
+    function getPrevTotal(){
+      const rows = Array.from(table.querySelectorAll('tr'));
+      if(!rows.length) return 0;
+      const td = rows[rows.length -1].children[4];
+      return td ? +td.textContent : 0;
+    }
+
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      if (!currentMember) return alert('Select a member');
+
+      const fd = new FormData(form);
+      fd.set('member', currentMember);
+
+      const res = await fetch(scriptURL, { method: 'POST', body: fd });
+      const json = await res.json();
+
+      if (json.success) {
+        alert('Saved');
+        form.reset();
+        form.elements['action'].value = 'create'; // <-- Reset action to 'create'
+        load();
+      } else {
+        alert('Error: ' + json.message);
+      }
+    });
+
+    async function action(act, r){
+      if(!currentMember) return;
+      if(confirm('Confirm?')){
+        const fd = new FormData();
+        fd.set('action',act);
+        fd.set('member', currentMember);
+        fd.set('id', r.id);
+        const res = await fetch(scriptURL, { method:'POST', body:fd });
+        const j = await res.json();
+        if(j.success){ alert('Done'); load();}
+        else alert('Err:'+j.message);
+      }
+    }
+
+    document.getElementById('search').addEventListener('input', e=>{
+      const q=e.target.value.toLowerCase();
+      table.querySelectorAll('tr').forEach(tr=>{
+        tr.style.display = tr.innerText.toLowerCase().includes(q)?'':'none';
+      });
+    });
+
+    // Dummy example of sum total for all members - replace with real data fetching logic
+async function loadSumTotal() {
+  // For example, fetch from your Google Apps Script backend or calculate from existing data
+  // Here is a dummy fixed number for demonstration:
+  const totalSum = 12345.67;
+
+  const sumTotalEl = document.getElementById('sum-total');
+  sumTotalEl.value = totalSum.toFixed(2);
+}
+
+// Call this once on page load and/or whenever data updates
+loadSumTotal();
+
+  </script>
+</body>
+</html>

@@ -63,7 +63,7 @@
     <label class="absolute left-2 top-2 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-500">Savings</label>
   </div>
 
-  <div class="relative">
+  <div class="relative hidden">
     <input type="number" name="profit" step="0.01" readonly
            class="peer h-12 w-full border rounded px-2 pt-4 bg-gray-100 placeholder-transparent focus:outline-none"
            placeholder="Profit" />
@@ -77,7 +77,7 @@
     <label class="absolute left-2 top-2 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-500">Withdraw</label>
   </div>
 
-  <div class="relative">
+  <div class="relative hidden">
     <input type="number" name="total" readonly
            class="peer h-12 w-full border rounded px-2 pt-4 bg-gray-100 placeholder-transparent focus:outline-none"
            placeholder="Total" />
@@ -98,14 +98,14 @@
     <label class="absolute left-2 top-2 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-500">Instalment</label>
   </div>
 
-  <div class="relative">
+  <div class="relative hidden">
     <input type="number" name="instalment_no" readonly
            class="peer h-12 w-full border rounded px-2 pt-4 bg-gray-100 placeholder-transparent focus:outline-none"
            placeholder="Instalment No" />
     <label class="absolute left-2 top-2 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-500">Instalment No</label>
   </div>
 
-  <div class="relative">
+  <div class="relative hidden">
     <input type="number" name="instalment_due" readonly
            class="peer h-12 w-full border rounded px-2 pt-4 bg-gray-100 placeholder-transparent focus:outline-none"
            placeholder="Instalment Due" />
@@ -170,16 +170,18 @@
     const memberEl = document.getElementById('member');
     const form = document.getElementById('tx-form');
     const table = document.getElementById('tx-table');
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbw2TMTyHtRZFeIY2R815UUkJZaYrcK0iTjL8l7Z5JRb9GJz9Qx_-3oJ375kHLZDOaM/exec';
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzUU7XAFOHsgcs4WtgEsmvYbopd650ldpTHT5mSuIDYPOQdUS5yvMSVvI0ZwtR5A5cX/exec';
 
-    const MEMBERS = [
-      'member1','member2','member3','member4','member5',
-      'member6','member7','member8','member9','member10'
-    ];
-    MEMBERS.forEach(m=>{
-      const o=new Option(m,m);
-      memberEl.append(o);
-    });
+    async function loadMembers() {
+  const res = await fetch(`${scriptURL}?action=members`);
+  const members = await res.json();
+  memberEl.innerHTML = '<option value="">Select Member</option>';
+  members.forEach(m => {
+    const o = new Option(m, m);
+    memberEl.append(o);
+  });
+}
+
 
     let currentMember='';
     memberEl.addEventListener('change',()=>{
@@ -348,6 +350,7 @@ async function loadSumTotal() {
 
 // Call this once on page load and/or whenever data updates
 loadSumTotal();
+loadMembers();
 
   </script>
 </body>
